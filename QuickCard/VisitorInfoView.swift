@@ -18,7 +18,7 @@ struct VisitorInfoView: View {
       CardView(user: user)
         .gesture(TapGesture()
           .onEnded {
-            withAnimation(.easeInOut, {
+            withAnimation(.easeInOut(duration: 0.7), {
               self.isChartHidden.toggle()
             })
           }
@@ -28,6 +28,7 @@ struct VisitorInfoView: View {
         GeometryReader { proxy in
             ZStack {
                 HStack(alignment: .bottom) {
+                    Spacer()
                 BarView(color: Color(#colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)),
                         width: proxy.size.width * 0.16,
                         height: self.isChartLoaded ? proxy.size.height / CGFloat(self.user.visit.views) : 0.0,
@@ -48,11 +49,13 @@ struct VisitorInfoView: View {
                         width: proxy.size.width * 0.16,
                         height: self.isChartLoaded ? proxy.size.height / CGFloat(self.user.visit.duration) : 0.0,
                         label: "Duration")
+                    Spacer()
               }.frame(height: 0.5 * proxy.size.height)
                 .animation(.easeInOut(duration: 1.0))
                 .onAppear {
                   self.isChartLoaded = true
             }
+                
             }
         }
         .transition(.move(edge: .bottom))
